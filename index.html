@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House of Revera</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--deep:#1a0a2e;--mid:#2d1155;--purple:#4a1d8a;
+--gold:#c9962c;--gold-light:#e8b84b;--gold-pale:#f5e6c0;
+--cream:#faf8f3;--light:#f2eee8;
+--text-dark:#1a1410;--text-mid:#4a3f35;--text-muted:#7a6e64;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--text-dark);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease}
+nav.scrolled{background:rgba(26,10,46,.93);backdrop-filter:blur(16px);padding:.8rem 4rem;border-bottom:1px solid rgba(201,150,44,.15)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:#fff;letter-spacing:.12em;text-transform:uppercase;flex-shrink:0}
+.nav-logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--gold-light)}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.55rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .3s;flex-shrink:0}
+.nav-cta:hover{background:var(--gold);color:#fff}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.4rem}
+.nav-hamburger span{display:block;width:22px;height:1.5px;background:rgba(255,255,255,.7);transition:all .3s}
+.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--deep);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.nav-mobile-menu.open{display:flex}
+.nav-mobile-menu a{color:rgba(255,255,255,.7);text-decoration:none;font-size:1.1rem;letter-spacing:.2em;text-transform:uppercase;font-family:'Cormorant Garamond',serif;font-weight:300}
+.nav-mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:rgba(255,255,255,.5);font-size:1.5rem;cursor:pointer;line-height:1}
+.nav-mobile-cta{background:var(--gold);color:#fff;padding:.8rem 2rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.5rem}
+
+#hero{min-height:100vh;background:var(--deep);position:relative;display:flex;align-items:center;overflow:hidden;padding-top:5rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(74,29,138,.55) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(201,150,44,.08) 0%,transparent 60%)}
+.hero-pattern{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(201,150,44,.6) 60px,rgba(201,150,44,.6) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(201,150,44,.6) 60px,rgba(201,150,44,.6) 61px)}
+.hero-content{position:relative;z-index:2;padding:3rem 4rem 8rem;max-width:800px}
+.hero-eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;display:flex;align-items:center;gap:.8rem}
+.hero-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:block}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,8vw,6rem);font-weight:300;color:#fff;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.5rem}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-subtitle{font-size:1rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:480px;margin-bottom:2.8rem;font-weight:300}
+.hero-actions{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:#fff;padding:.85rem 2.2rem;font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;white-space:nowrap}
+.btn-primary:hover{background:var(--gold-light)}
+.btn-ghost{background:transparent;border:none;color:rgba(255,255,255,.6);font-size:.78rem;letter-spacing:.1em;cursor:pointer;display:flex;align-items:center;gap:.6rem;transition:color .3s;white-space:nowrap}
+.btn-ghost:hover{color:var(--gold-light)}
+.btn-ghost svg{transition:transform .3s}
+.btn-ghost:hover svg{transform:translateX(4px)}
+.hero-stat-bar{position:absolute;bottom:0;left:0;right:0;border-top:1px solid rgba(201,150,44,.12);display:grid;grid-template-columns:repeat(4,1fr)}
+.hero-stat{padding:1.2rem 1.5rem;border-right:1px solid rgba(201,150,44,.1)}
+.hero-stat:last-child{border-right:none}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--gold-light);line-height:1}
+.hero-stat-label{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:.3rem}
+
+.marquee-strip{background:var(--gold);padding:.7rem 0;overflow:hidden}
+.marquee-track{display:flex;animation:marquee 22s linear infinite;white-space:nowrap}
+.marquee-item{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--deep);padding:0 2rem;font-weight:500;opacity:.9}
+.marquee-dot{color:var(--deep);opacity:.4;font-size:.5rem;line-height:1.4}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+section{padding:6rem 4rem}
+.section-eyebrow{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.8rem}
+.section-eyebrow::before{content:'';width:2rem;height:1px;background:var(--gold);display:block}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,4.5vw,3.5rem);font-weight:300;line-height:1.1;color:var(--text-dark)}
+.section-title em{font-style:italic;color:var(--purple)}
+
+#services{background:var(--cream)}
+.services-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:4rem}
+.services-intro{font-size:.95rem;color:var(--text-muted);line-height:1.9;font-weight:300;max-width:420px}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(74,29,138,.08)}
+.service-card{background:var(--cream);padding:2.5rem 2rem;cursor:pointer;transition:all .35s;position:relative;overflow:hidden}
+.service-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.service-card:hover{background:#fff}
+.service-card:hover::after{transform:scaleX(1)}
+.service-icon{width:2.2rem;height:2.2rem;margin-bottom:1.3rem;opacity:.45;transition:opacity .3s}
+.service-card:hover .service-icon{opacity:1}
+.service-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--text-dark);margin-bottom:.6rem}
+.service-desc{font-size:.8rem;color:var(--text-muted);line-height:1.8;font-weight:300}
+.service-tag{display:inline-block;margin-top:1rem;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,150,44,.3);padding:.28rem .7rem}
+
+#about{background:var(--deep);position:relative;overflow:hidden}
+.about-grid{display:grid;grid-template-columns:5fr 4fr;gap:5rem;align-items:start}
+.about-bg-text{position:absolute;right:-2rem;top:50%;transform:translateY(-50%);font-family:'Cormorant Garamond',serif;font-size:18rem;font-weight:300;color:rgba(255,255,255,.02);line-height:1;pointer-events:none;white-space:nowrap}
+.about-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4.5vw,3.6rem);font-weight:300;color:#fff;line-height:1.1;margin-bottom:1.8rem}
+.about-title em{font-style:italic;color:var(--gold-light)}
+.about-body{font-size:.88rem;color:rgba(255,255,255,.5);line-height:2;font-weight:300;margin-bottom:1.2rem}
+.founders-row{display:flex;gap:1.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(201,150,44,.12);flex-wrap:wrap}
+.founder-card{display:flex;align-items:center;gap:.9rem;flex:1;min-width:180px}
+.founder-avatar{width:3.2rem;height:3.2rem;border-radius:50%;background:linear-gradient(135deg,var(--mid),var(--purple));border:1px solid rgba(201,150,44,.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold-light);flex-shrink:0}
+.founder-name{font-size:.88rem;font-weight:500;color:#fff}
+.founder-role{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:.15rem}
+.about-pillars{display:flex;flex-direction:column;gap:1.3rem}
+.pillar{padding:1.4rem;border:1px solid rgba(201,150,44,.1);transition:border-color .3s}
+.pillar:hover{border-color:rgba(201,150,44,.35)}
+.pillar-word{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--gold-light);margin-bottom:.35rem}
+.pillar-desc{font-size:.76rem;color:rgba(255,255,255,.33);font-weight:300;line-height:1.7}
+
+#portfolio{background:var(--cream);position:relative;overflow:hidden}
+.portfolio-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:4rem}
+.portfolio-intro{font-size:.95rem;color:var(--text-muted);line-height:1.9;font-weight:300;max-width:420px}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:3rem}
+.portfolio-item{background:#fff;border:1px solid rgba(74,29,138,.05);padding:0;overflow:hidden;cursor:pointer;transition:all .4s cubic-bezier(.34,.1,.68,.55);position:relative;display:flex;flex-direction:column;height:100%}
+.portfolio-item::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,150,44,.05),transparent);opacity:0;transition:opacity .4s}
+.portfolio-item:hover{border-color:rgba(201,150,44,.25);box-shadow:0 12px 32px rgba(26,10,46,.08);transform:translateY(-6px)}
+.portfolio-item:hover::after{opacity:1}
+.portfolio-thumb{width:100%;height:220px;background:linear-gradient(135deg,rgba(74,29,138,.08),rgba(201,150,44,.05));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:rgba(26,10,46,.05);position:relative;overflow:hidden}
+.portfolio-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 60% 40%,rgba(201,150,44,.1),transparent)}
+.portfolio-content{padding:2rem;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.portfolio-tag{display:inline-block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,150,44,.3);padding:.28rem .7rem;width:fit-content;margin-bottom:1rem}
+.portfolio-name{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--text-dark);margin-bottom:.5rem;line-height:1.2}
+.portfolio-desc{font-size:.82rem;color:var(--text-muted);line-height:1.7;font-weight:300;margin-bottom:1.2rem;flex-grow:1}
+.portfolio-meta{display:flex;align-items:center;justify-content:space-between;font-size:.7rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
+.portfolio-arrow{color:var(--gold);font-size:1rem}
+.portfolio-item:hover .portfolio-arrow{transform:translateX(4px)}
+
+#pricing{background:#fff}
+.pricing-header{text-align:center;margin-bottom:4rem}
+.pricing-header .section-eyebrow{justify-content:center}
+.pricing-header .section-eyebrow::before{display:none}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+.price-card{border:1px solid rgba(26,10,46,.08);padding:2.2rem 2rem;position:relative;transition:all .35s}
+.price-card:hover{border-color:rgba(201,150,44,.4);transform:translateY(-4px)}
+.price-card.featured{border-color:var(--gold);background:var(--deep)}
+.price-card.featured .price-name{color:var(--gold-light)}
+.price-card.featured .price-tagline{color:rgba(255,255,255,.4)}
+.price-card.featured .price-amount{color:#fff}
+.price-card.featured .price-period{color:rgba(255,255,255,.35)}
+.price-card.featured .price-feature{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.07)}
+.price-card.featured .price-feature::before{background:var(--gold)}
+.featured-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.32rem 1.1rem;white-space:nowrap}
+.price-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:var(--text-dark);margin-bottom:.4rem}
+.price-tagline{font-size:.73rem;color:var(--text-muted);font-weight:300;margin-bottom:1.6rem;line-height:1.6}
+.price-amount{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:var(--text-dark);line-height:1}
+.price-period{font-size:.7rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.6rem}
+.price-divider{border:none;border-top:1px solid rgba(26,10,46,.07);margin-bottom:1.4rem}
+.price-card.featured .price-divider{border-color:rgba(255,255,255,.08)}
+.price-features{list-style:none;margin-bottom:1.8rem}
+.price-feature{font-size:.78rem;color:var(--text-muted);padding:.45rem 0;border-bottom:1px solid rgba(26,10,46,.05);display:flex;align-items:center;gap:.6rem;font-weight:300}
+.price-feature::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(201,150,44,.5);flex-shrink:0}
+.price-btn{width:100%;padding:.8rem;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;transition:all .3s;background:transparent;border:1px solid rgba(26,10,46,.15);color:var(--text-dark)}
+.price-btn:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+.price-card.featured .price-btn{background:var(--gold);border-color:var(--gold);color:#fff}
+.price-card.featured .price-btn:hover{background:var(--gold-light)}
+
+#testimonials{background:var(--light)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.testi-card{background:#fff;padding:2rem;border-bottom:2px solid transparent;transition:border-color .3s}
+.testi-card:hover{border-bottom-color:var(--gold)}
+.testi-stars{display:flex;gap:.2rem;margin-bottom:1rem}
+.star{width:.8rem;height:.8rem;fill:var(--gold)}
+.testi-quote{font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:var(--text-dark);line-height:1.8;font-weight:300;margin-bottom:1.4rem}
+.testi-client{display:flex;align-items:center;gap:.8rem}
+.testi-avatar{width:2.2rem;height:2.2rem;border-radius:50%;background:linear-gradient(135deg,rgba(74,29,138,.15),rgba(201,150,44,.2));display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:500;color:var(--purple);flex-shrink:0}
+.testi-name{font-size:.8rem;font-weight:500;color:var(--text-dark)}
+.testi-co{font-size:.68rem;color:var(--text-muted)}
+
+#contact{background:var(--deep);text-align:center;position:relative;overflow:hidden}
+.contact-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(74,29,138,.4) 0%,transparent 70%)}
+.contact-content{position:relative;z-index:2;max-width:600px;margin:0 auto}
+.contact-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4.5rem);font-weight:300;color:#fff;line-height:1.05;margin-bottom:1.2rem}
+.contact-title em{font-style:italic;color:var(--gold-light)}
+.contact-sub{font-size:.9rem;color:rgba(255,255,255,.4);font-weight:300;line-height:1.8;margin-bottom:2.8rem}
+.contact-btn{display:inline-block;background:var(--gold);color:#fff;padding:1rem 2.8rem;font-family:'DM Sans',sans-serif;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;margin-bottom:1.5rem}
+.contact-btn:hover{background:var(--gold-light)}
+.contact-alt{font-size:.75rem;color:rgba(255,255,255,.25);letter-spacing:.08em}
+.contact-alt a{color:var(--gold);text-decoration:none}
+
+footer{background:#0f0620;padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,150,44,.08);flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase}
+.footer-logo span{color:rgba(201,150,44,.5)}
+.footer-copy{font-size:.62rem;color:rgba(255,255,255,.18);letter-spacing:.08em}
+.footer-links{display:flex;gap:1.8rem}
+.footer-links a{font-size:.62rem;color:rgba(255,255,255,.2);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  nav.scrolled{padding:.8rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+
+  #hero{padding-top:4rem}
+  .hero-content{padding:2.5rem 1.5rem 10rem}
+  .hero-title{font-size:clamp(2.6rem,10vw,4rem)}
+  .hero-actions{gap:1.2rem}
+  .btn-ghost{display:none}
+  .hero-stat-bar{grid-template-columns:repeat(2,1fr)}
+  .hero-stat{padding:1rem 1.2rem}
+  .hero-stat:nth-child(2){border-right:none}
+  .hero-stat:nth-child(3){border-top:1px solid rgba(201,150,44,.1)}
+  .hero-stat:nth-child(4){border-top:1px solid rgba(201,150,44,.1);border-right:none}
+
+  section{padding:4rem 1.5rem}
+
+  .services-header{grid-template-columns:1fr;gap:1.2rem;margin-bottom:2.5rem}
+  .services-intro{max-width:100%}
+  .services-grid{grid-template-columns:1fr}
+  .service-card{padding:1.8rem 1.5rem}
+
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .about-bg-text{display:none}
+  .about-title{font-size:clamp(1.9rem,7vw,3rem)}
+  .founders-row{flex-direction:column;gap:1.2rem}
+  .about-pillars{flex-direction:row;flex-wrap:wrap;gap:1rem}
+  .pillar{flex:1;min-width:140px}
+
+  .portfolio-header{grid-template-columns:1fr;gap:1.2rem;margin-bottom:2.5rem}
+  .portfolio-intro{max-width:100%}
+  .portfolio-grid{grid-template-columns:1fr}
+  .portfolio-thumb{height:180px;font-size:2rem}
+
+  .pricing-grid{grid-template-columns:1fr;max-width:420px}
+  .price-card.featured{order:-1}
+
+  .testi-grid{grid-template-columns:1fr;gap:1.2rem}
+
+  footer{flex-direction:column;align-items:flex-start;padding:1.8rem 1.5rem;gap:.8rem}
+  .footer-links{order:-1}
+}
+
+@media(max-width:480px){
+  nav{padding:.9rem 1.2rem}
+  nav.scrolled{padding:.7rem 1.2rem}
+  .hero-content{padding:2rem 1.2rem 9rem}
+  .hero-stat{padding:.8rem 1rem}
+  .hero-stat-num{font-size:1.4rem}
+  .hero-stat-label{font-size:.55rem}
+  section{padding:3.5rem 1.2rem}
+  .service-card{padding:1.5rem 1.2rem}
+  .pricing-grid{max-width:100%}
+  .price-card{padding:1.8rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">House of <span>Revera</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#testimonials">Results</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Call</button>
+  <div class="nav-hamburger" id="hamburger" onclick="openMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="nav-mobile-close" onclick="closeMenu()">&#x2715;</button>
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#portfolio" onclick="closeMenu()">Work</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="#testimonials" onclick="closeMenu()">Results</a>
+  <button class="nav-mobile-cta" onclick="closeMenu();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Free Call</button>
+</div>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Voice of Brands</div>
+    <h1 class="hero-title">Your brand<br>deserves to<br><em>be heard.</em></h1>
+    <p class="hero-subtitle">We help micro-startups and ambitious businesses build premium digital identities — from strategy to social to code.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Free Call</button>
+      <button class="btn-ghost" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+        Explore Services
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="hero-stat-bar">
+    <div class="hero-stat"><div class="hero-stat-num">150%</div><div class="hero-stat-label">Avg. Engagement Lift</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">50+</div><div class="hero-stat-label">Brands Scaled</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label">Core Services</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">AI</div><div class="hero-stat-label">Powered Strategy</div></div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Social Media Management</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Brand Identity</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Meta Advertisements</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Website Building</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">App Development</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">SEO Optimisation</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Content Creation</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">AI-Powered Growth</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Social Media Management</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Brand Identity</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Meta Advertisements</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Website Building</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">App Development</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">SEO Optimisation</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Content Creation</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">AI-Powered Growth</span><span class="marquee-dot">◆</span>
+  </div>
+</div>
+
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-eyebrow">What We Do</div>
+      <h2 class="section-title">Every service your<br>brand needs to <em>dominate.</em></h2>
+    </div>
+    <p class="services-intro">From zero to iconic — we handle the full stack of your brand's digital presence so you can focus on building what matters.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#4a1d8a" stroke-width="1.5"><rect x="4" y="8" width="32" height="24" rx="2"/><path d="M4 14h32M12 8v6M28 8v6"/></svg>
+      <div class="service-name">Social Media Management</div>
+      <p class="service-desc">Full-service handling of your social channels — strategy, scheduling, community management, and growth.</p>
+      <span class="service-tag">Monthly</span>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#4a1d8a" stroke-width="1.5"><circle cx="20" cy="20" r="14"/><path d="M20 6v28M6 20h28M10 10l20 20M30 10L10 30"/></svg>
+      <div class="service-name">Meta Advertisements</div>
+      <p class="service-desc">Data-driven paid campaigns that hit the right audience at the right time — real reach, real results.</p>
+      <span class="service-tag">One-Time</span>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#4a1d8a" stroke-width="1.5"><path d="M8 32l6-8 5 6 6-10 7 12"/><rect x="4" y="4" width="32" height="32" rx="2"/></svg>
+      <div class="service-name">Content Creation</div>
+      <p class="service-desc">Reels, posts, carousels and stories blending creativity with strategy — content your audience won't skip.</p>
+      <span class="service-tag">Monthly</span>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#4a1d8a" stroke-width="1.5"><rect x="4" y="6" width="32" height="28" rx="2"/><path d="M4 14h32M12 22h6M12 28h10"/></svg>
+      <div class="service-name">Website Building</div>
+      <p class="service-desc">Fast, responsive, brand-first websites built from design to deployment — your digital home, perfected.</p>
+      <span class="service-tag">One-Time</span>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#4a1d8a" stroke-width="1.5"><rect x="10" y="4" width="20" height="32" rx="3"/><circle cx="20" cy="32" r="1.5"/><path d="M16 10h8"/></svg>
+      <div class="service-name">App Development</div>
+      <p class="service-desc">Seamless mobile & web experiences built from wireframe to launch — scalable, performant, on-brand.</p>
+      <span class="service-tag">One-Time</span>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#4a1d8a" stroke-width="1.5"><circle cx="20" cy="20" r="14"/><path d="M20 8v4M20 28v4M8 20h4M28 20h4"/><circle cx="20" cy="20" r="5"/></svg>
+      <div class="service-name">SEO & Web Management</div>
+      <p class="service-desc">Comprehensive analytics, performance tracking, and ongoing web management — stay visible, stay optimised.</p>
+      <span class="service-tag">Monthly</span>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-eyebrow">Featured Work</div>
+      <h2 class="section-title">Digital brands we've<br><em>brought to life.</em></h2>
+    </div>
+    <p class="portfolio-intro">From ambitious startups to established businesses, we've crafted digital experiences that resonate, convert, and scale. Every project a proof point in precision and creativity.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-item" onclick="window.open('https://crypto4fun.vercel.app','_blank')">
+      <div class="portfolio-thumb">
+  <img src="assets\crypto4fun.png" alt="Crypto4Fun" style="width:100%;height:100%;object-fit:cover">
+</div>
+      <div class="portfolio-content">
+        <div>
+          <div class="portfolio-tag">Web App</div>
+          <div class="portfolio-name">Crypto4Fun</div>
+          <p class="portfolio-desc">An engaging crypto education platform designed to demystify blockchain for beginners with interactive learning.</p>
+        </div>
+        <div class="portfolio-meta">
+          <span>Web Development</span>
+          <span class="portfolio-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item" onclick="window.open('https://ourpets.vercel.app','_blank')">
+      <div class="portfolio-thumb">
+  <img src="assets\ourpets.png" alt="OurPets" style="width:100%;height:100%;object-fit:cover">
+</div>
+      <div class="portfolio-content">
+        <div>
+          <div class="portfolio-tag">Community</div>
+          <div class="portfolio-name">OurPets</div>
+          <p class="portfolio-desc">A vibrant social platform connecting pet lovers worldwide. Share, discover, and celebrate your furry friends.</p>
+        </div>
+        <div class="portfolio-meta">
+          <span>App Development</span>
+          <span class="portfolio-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item" onclick="window.open('https://happy-molars.vercel.app','_blank')">
+      <div class="portfolio-thumb">
+  <img src="assets\happymolars.png" alt="Happy Molars" style="width:100%;height:100%;object-fit:cover">
+</div>
+      <div class="portfolio-content">
+        <div>
+          <div class="portfolio-tag">Healthcare</div>
+          <div class="portfolio-name">Happy Molars</div>
+          <p class="portfolio-desc">A patient-first dental clinic platform blending modern aesthetics with seamless appointment and care management.</p>
+        </div>
+        <div class="portfolio-meta">
+          <span>Web Design</span>
+          <span class="portfolio-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item" onclick="window.open('https://oakstone-properties.vercel.app','_blank')">
+      <div class="portfolio-thumb">
+  <img src="assets\oakstone.png" alt="Oakstone Properties" style="width:100%;height:100%;object-fit:cover">
+</div>
+      <div class="portfolio-content">
+        <div>
+          <div class="portfolio-tag">Real Estate</div>
+          <div class="portfolio-name">Oakstone Properties</div>
+          <p class="portfolio-desc">A luxury real estate showcase with immersive property listings, seamless navigation, and premium visual storytelling.</p>
+        </div>
+        <div class="portfolio-meta">
+          <span>Web Development</span>
+          <span class="portfolio-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="section-eyebrow">Results</div>
+  <h2 class="section-title">Brands that<br><em>trusted us.</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+      </div>
+      <p class="testi-quote">"Our engagement went up 150% within 6 weeks. Revera didn't just manage our social — they transformed how our audience sees us."</p>
+      <div class="testi-client">
+        <div class="testi-avatar">RS</div>
+        <div><div class="testi-name">Riya Sharma</div><div class="testi-co">Founder, Aura Skincare</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+      </div>
+      <p class="testi-quote">"We went from invisible to booked out. Their website build was clean, fast, and actually converted. Best investment we made."</p>
+      <div class="testi-client">
+        <div class="testi-avatar">KM</div>
+        <div><div class="testi-name">Kartik Mehta</div><div class="testi-co">CEO, NestBuild Co.</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+        <svg class="star" viewBox="0 0 16 16"><path d="M8 1l2.1 4.3 4.9.7-3.5 3.4.8 4.8L8 12l-4.3 2.2.8-4.8L1 6l4.9-.7z"/></svg>
+      </div>
+      <p class="testi-quote">"The AI-driven content strategy is genuinely next-level. They understand Gen Z and premium simultaneously — rare combination."</p>
+      <div class="testi-client">
+        <div class="testi-avatar">PR</div>
+        <div><div class="testi-name">Priya Reddy</div><div class="testi-co">CMO, Velour Studios</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-bg-text">HOR</div>
+  <div class="about-grid">
+    <div class="about-content">
+      <div class="section-eyebrow" style="color:var(--gold)">Our Philosophy</div>
+      <h2 class="about-title">In today's world,<br>if you're not online —<br><em>you're invisible.</em></h2>
+      <p class="about-body">The House of Revera exists to give every ambitious brand — regardless of size — a premium digital presence. We combine AI-powered strategy with human creativity to make sure your brand doesn't just show up online, it commands attention.</p>
+      <p class="about-body">A powerful website is your business's home. A strong social presence is its voice. We build both.</p>
+      <div class="founders-row">
+        <div class="founder-card">
+          <div class="founder-avatar">AK</div>
+          <div>
+            <div class="founder-name">Aditya Krishna</div>
+            <div class="founder-role">Co-Founder</div>
+          </div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-avatar">VN</div>
+          <div>
+            <div class="founder-name">Vikas Nishad</div>
+            <div class="founder-role">Co-Founder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-pillars">
+      <div class="pillar">
+        <div class="pillar-word">Reverb.</div>
+        <div class="pillar-desc">Your brand message amplified across every channel that matters.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-word">Resonate.</div>
+        <div class="pillar-desc">Content and identity that connects deeply with your audience.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-word">Influence.</div>
+        <div class="pillar-desc">Turn visibility into credibility — and credibility into conversions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-content">
+    <div class="section-eyebrow" style="justify-content:center;color:var(--gold)">Let's Build</div>
+    <h2 class="contact-title">Ready to become<br><em>unforgettable?</em></h2>
+    <p class="contact-sub">Book a free 30-minute strategy call. We'll map out exactly how to scale your brand's presence — no fluff, just a real plan.</p>
+    <button class="contact-btn">Book Your Free Call</button>
+    <div class="contact-alt">or reach us at <a href="mailto:hello@houseofrevera.com">hello@houseofrevera.com</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">House of <span>Revera</span></div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 House of Revera. All rights reserved.</div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('nav');
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.body.style.overflow='hidden'}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow=''}
+</script>
+</body>
+</html>
