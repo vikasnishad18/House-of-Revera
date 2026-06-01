@@ -1,18 +1,18 @@
 // Supabase Client Initialization
 // This file handles all Supabase connections
 
-// Load environment variables
+// Load environment variables from .env file
 const getEnvVar = (key) => {
-  // Try to get from window if loaded from HTML script
-  if (window.__ENV__ && window.__ENV__[key]) {
-    return window.__ENV__[key];
+  // For direct file approach, read from meta tags in HTML
+  const metaTag = document.querySelector(`meta[data-env-${key.toLowerCase()}]`);
+  if (metaTag) {
+    return metaTag.getAttribute(`data-env-${key.toLowerCase()}`);
   }
-  // Fallback for development
-  return process.env[key] || '';
+  return '';
 };
 
-const SUPABASE_URL = getEnvVar('VITE_SUPABASE_URL');
-const SUPABASE_ANON_KEY = getEnvVar('VITE_SUPABASE_ANON_KEY');
+const SUPABASE_URL = 'https://ihbrlivclnemejxkxghe.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImloYnJsaXZjbG5lbWVqeGt4Z2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyOTc3NzUsImV4cCI6MjA5NTg3Mzc3NX0.V7Qt_aLpxHiu7vrmPM6E6uBKHlDMsxCEhfpVJHAHmRg';
 
 // Initialize Supabase client
 const { createClient } = window.supabase;
