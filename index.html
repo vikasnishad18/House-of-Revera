@@ -168,6 +168,40 @@ section{padding:6rem 4rem}
 .contact-alt{font-size:.75rem;color:rgba(255,255,255,.25);letter-spacing:.08em}
 .contact-alt a{color:var(--gold);text-decoration:none}
 
+/* Contact Form Styles */
+#contactForm{display:flex;flex-direction:column;max-width:500px;margin:2.5rem auto;gap:1rem}
+#contactForm input,#contactForm textarea{
+  padding:1rem;
+  border:1px solid rgba(201,150,44,.25);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:.9rem;
+  border-radius:3px;
+  transition:border-color .3s,background .3s;
+  backdrop-filter:blur(4px)
+}
+#contactForm input::placeholder,#contactForm textarea::placeholder{
+  color:rgba(255,255,255,.35);
+}
+#contactForm input:focus,#contactForm textarea:focus{
+  outline:none;
+  border-color:rgba(201,150,44,.5);
+  background:rgba(255,255,255,.08);
+  box-shadow:0 0 12px rgba(201,150,44,.1)
+}
+#contactForm textarea{
+  resize:vertical;
+  min-height:120px;
+  font-family:'DM Sans',sans-serif
+}
+#formStatus{
+  font-size:.8rem;
+  text-align:center;
+  min-height:1.2rem;
+  line-height:1.2
+}
+
 footer{background:#0f0620;padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,150,44,.08);flex-wrap:wrap;gap:1rem}
 .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase}
 .footer-logo span{color:rgba(201,150,44,.5)}
@@ -233,6 +267,8 @@ footer{background:#0f0620;padding:2rem 4rem;display:flex;align-items:center;just
   .service-card{padding:1.5rem 1.2rem}
   .pricing-grid{max-width:100%}
   .price-card{padding:1.8rem 1.5rem}
+  
+  #contactForm{max-width:100%;margin:2rem 0}
 }
 </style>
 
@@ -545,13 +581,13 @@ window.__ENV__ = {
     <h2 class="contact-title">Ready to become<br><em>unforgettable?</em></h2>
     <p class="contact-sub">Book a free 30-minute strategy call. We'll map out exactly how to scale your brand's presence — no fluff, just a real plan.</p>
     
-    <form id="contactForm" style="display:flex;flex-direction:column;max-width:480px;margin:2rem auto;gap:1.2rem">
-      <input type="text" id="name" placeholder="Your Name" required style="padding:.75rem;border:1px solid rgba(201,150,44,.3);background:rgba(255,255,255,.05);color:#fff;font-family:'DM Sans',sans-serif;border-radius:2px" />
-      <input type="email" id="email" placeholder="Your Email" required style="padding:.75rem;border:1px solid rgba(201,150,44,.3);background:rgba(255,255,255,.05);color:#fff;font-family:'DM Sans',sans-serif;border-radius:2px" />
-      <input type="tel" id="phone" placeholder="Your Phone (optional)" style="padding:.75rem;border:1px solid rgba(201,150,44,.3);background:rgba(255,255,255,.05);color:#fff;font-family:'DM Sans',sans-serif;border-radius:2px" />
-      <textarea id="message" placeholder="Tell us about your project..." required rows="4" style="padding:.75rem;border:1px solid rgba(201,150,44,.3);background:rgba(255,255,255,.05);color:#fff;font-family:'DM Sans',sans-serif;border-radius:2px;resize:none" />
-      <button type="submit" class="contact-btn">Book Your Free Call</button>
-      <div id="formStatus" style="font-size:.8rem;text-align:center;color:rgba(255,255,255,.5)"></div>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <input type="email" id="email" placeholder="Your Email" required />
+      <input type="tel" id="phone" placeholder="Your Phone (optional)" />
+      <textarea id="message" placeholder="Tell us about your project..." required></textarea>
+      <button type="submit" class="contact-btn" style="margin:0">Book Your Free Call</button>
+      <div id="formStatus"></div>
     </form>
 
     <div class="contact-alt">or reach us at <a href="mailto:hello@houseofrevera.com">hello@houseofrevera.com</a></div>
